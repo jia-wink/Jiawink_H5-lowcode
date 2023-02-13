@@ -1,11 +1,3 @@
-<!--
- * @Author: 卜启缘
- * @Date: 2021-06-24 00:35:17
- * @LastEditTime: 2021-06-27 14:31:28
- * @LastEditors: 卜启缘
- * @Description: 可视化编辑器
- * @FilePath: \vite-vue3-lowcode\src\visual-editor\index.vue
--->
 <template>
   <el-container>
     <el-header height="80px" class="flex items-center shadow-md">
