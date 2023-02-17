@@ -2,7 +2,8 @@
   <el-row type="flex" class="header">
     <!--    左侧logo start-->
     <el-col :span="6" class="flex items-center">
-      <a href="">
+      <!-- 链接到个人博客页 -->
+      <a href="https://www.cnblogs.com/jiawink/" target="_blank">
         <div class="logo"></div>
       </a>
       <h3 class="font-semibold">嘉雲H5低代码</h3>
@@ -14,7 +15,7 @@
         <div :class="[`w-1/${tools.length}`]" class="w-1/9">
           <div
             class="tool-item flex flex-col items-center cursor-pointer"
-            @click="toolItem.onClick"
+            @click="toolItem.onClick === 'runPreview' ? runPreview() : toolItem.onClick()"
           >
             <el-icon>
               <component :is="toolItem.icon" />
@@ -27,7 +28,7 @@
     <!--    中间操作页面部分 end-->
     <!--    右侧工具栏 start-->
     <el-col :span="6" class="right-tools flex flex-row-reverse items-center">
-      <el-tooltip class="item" effect="dark" content="运行" placement="bottom">
+      <!-- <el-tooltip class="item" effect="dark" content="运行" placement="bottom">
         <el-button
           type="primary"
           :icon="VideoPlay"
@@ -36,7 +37,7 @@
           class="flex-shrink-0 !p-6px"
           @click="runPreview"
         />
-      </el-tooltip>
+      </el-tooltip> -->
       <el-popover placement="bottom" :width="140" trigger="hover">
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="6">
@@ -65,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { VideoPlay } from '@element-plus/icons-vue';
+  // import { VideoPlay } from '@element-plus/icons-vue';
   import Preview from './preview.vue';
   import { useTools } from './useTools';
   import { useVisualData, localKey } from '@/visual-editor/hooks/useVisualData';
@@ -122,5 +123,6 @@
 
   .font-semibold {
     padding-left: 10px;
+    font-size: 20px;
   }
 </style>

@@ -1,7 +1,4 @@
 /**
- * @name: tools
- * @author: 卜启缘
- * @date: 2021/5/7 10:46
  * @description：tools
  * @update: 2021/5/7 10:46
  */
@@ -19,13 +16,14 @@ import {
   ChatLineSquare,
   Download,
   Upload,
+  VideoPlay,
 } from '@element-plus/icons-vue';
 import { useVisualData, localKey } from '@/visual-editor/hooks/useVisualData';
 import { useModal } from '@/visual-editor/hooks/useModal';
 import MonacoEditor from '@/visual-editor/components/common/monaco-editor/MonacoEditor';
 import 'element-plus/es/components/message/style/css';
 
-export const useTools = () => {
+export const useTools: any = () => {
   const { jsonData, updatePage, currentPage, overrideProject } = useVisualData();
   const state = reactive({
     coverRadio: 'current',
@@ -160,6 +158,11 @@ export const useTools = () => {
     // },
     {
       title: '预览',
+      icon: VideoPlay,
+      onClick: 'runPreview',
+    },
+    {
+      title: '发布',
       icon: Position,
       onClick: () => {
         localStorage.setItem(localKey, JSON.stringify(jsonData));
