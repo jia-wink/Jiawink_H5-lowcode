@@ -2,12 +2,14 @@
   <el-row type="flex" class="header">
     <!--    左侧logo start-->
     <el-col :span="6" class="flex items-center">
-      <div class="logo"></div>
-      <h3 class="font-semibold">H5低代码</h3>
+      <a href="">
+        <div class="logo"></div>
+      </a>
+      <h3 class="font-semibold">嘉雲H5低代码</h3>
     </el-col>
     <!--    左侧logo end-->
     <!--    中间操作页面部分 start-->
-    <el-col class="flex items-center" :span="12">
+    <el-col class="flex items-center space-between" :span="12">
       <template v-for="(toolItem, toolIndex) in tools" :key="toolIndex">
         <div :class="[`w-1/${tools.length}`]" class="w-1/9">
           <div
@@ -35,23 +37,18 @@
           @click="runPreview"
         />
       </el-tooltip>
-      <!--      <el-tooltip class="item" effect="dark" content="github" placement="bottom">-->
-      <!--        <a href="https://github.com/buqiyuan/vite-vue3-lowcode" target="_blank">-->
-      <!--          <img :src="`${BASE_URL}github.svg`" width="40" height="40" alt="" />-->
-      <!--        </a>-->
-      <!--      </el-tooltip>-->
       <el-popover placement="bottom" :width="140" trigger="hover">
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="6">
             <el-tooltip class="item" effect="dark" content="github" placement="bottom">
-              <a href="https://github.com/buqiyuan/vite-vue3-lowcode" target="_blank">
+              <a href="https://github.com/jia-wink/Jiawink_H5-lowcode" target="_blank">
                 <img :src="`${BASE_URL}github.svg`" width="40" height="40" alt="" />
               </a>
             </el-tooltip>
           </el-col>
           <el-col :span="6">
             <el-tooltip class="item" effect="dark" content="gitee" placement="bottom">
-              <a href="https://gitee.com/buqiyuan/vite-vue3-lowcode" target="_blank">
+              <a href="https://gitee.com/jiawink/Jiawink_H5-lowcode" target="_blank">
                 <img :src="`${BASE_URL}gitee.svg`" width="40" height="40" alt="" />
               </a>
             </el-tooltip>
@@ -117,5 +114,13 @@
     .right-tools > * {
       margin-left: 8px;
     }
+  }
+
+  .space-between {
+    justify-content: space-around;
+  }
+
+  .font-semibold {
+    padding-left: 10px;
   }
 </style>
