@@ -1,8 +1,4 @@
 /*
- * @Author: 卜启缘
- * @Date: 2021-06-01 13:22:14
- * @LastEditTime: 2021-07-11 11:05:06
- * @LastEditors: 卜启缘
  * @Description: 基础组件
  * @FilePath: \vite-vue3-lowcode\src\visual-editor\components\left-aside\components\base-widgets\index.tsx
  */
@@ -21,6 +17,7 @@ export default defineComponent({
   icon: Edit,
   setup() {
     const baseWidgets = ref(visualConfig.componentModules.baseWidgets);
+    console.log(baseWidgets);
 
     const log = (evt) => {
       window.console.log('onChange:', evt);
@@ -28,6 +25,7 @@ export default defineComponent({
     // 克隆组件
     const cloneDog = (comp) => {
       console.log('当前拖拽的组件：', comp);
+      // 用了lodash-es的深拷贝方法深拷贝组件
       const newComp = cloneDeep(comp);
       return createNewBlock(newComp);
     };

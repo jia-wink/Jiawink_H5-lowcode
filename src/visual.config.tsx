@@ -1,5 +1,7 @@
 import { createVisualEditorConfig } from './visual-editor/visual-editor.utils';
+// 基础组件
 import baseWidgets from '@/packages/base-widgets';
+// 容器组件
 import containerComponent from '@/packages/container-component';
 
 export const visualConfig = createVisualEditorConfig();

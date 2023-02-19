@@ -230,6 +230,7 @@ export type VisualEditorMarkLines = {
 
 export function createNewBlock(component: VisualEditorComponent): VisualEditorBlockData {
   return {
+    // 自动生成唯一的组件id
     _vid: `vid_${generateNanoid()}`,
     moduleName: component.moduleName,
     componentKey: component!.key,
@@ -297,6 +298,7 @@ export type ComponentModules = {
  * @returns {} 返回编辑器注册组件的方法等
  */
 export function createVisualEditorConfig() {
+  // 将组件按类别注册到componentModeules上
   const componentModules: ComponentModules = {
     baseWidgets: [],
     containerComponents: [],

@@ -24,14 +24,12 @@
 
 <script lang="ts" setup>
   /**
-   * @name: draggable-transition-group
-   * @author:卜启缘
-   * @date: 2021/5/1 23:15
    * @description：draggable-transition-group
-   * @update: 2021/5/1 23:15
    */
   import { computed } from 'vue';
+  // 是一款优秀的Vue拖拽插件.用于实现本项目核心的拖拽功能
   import draggable from 'vuedraggable';
+  // vueuse的组将封装方法,可以把数据变成响应式对象
   import { useVModel } from '@vueuse/core';
 
   defineOptions({

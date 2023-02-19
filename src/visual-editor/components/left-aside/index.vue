@@ -28,7 +28,7 @@
   defineOptions({
     name: 'LeftAside',
   });
-
+  // Object.entries 对象转数组
   const tabs = Object.entries(components)
     .map(([name, component]) => {
       const { label, icon, order } = component;
