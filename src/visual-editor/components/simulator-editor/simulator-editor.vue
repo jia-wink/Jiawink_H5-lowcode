@@ -21,6 +21,7 @@
               @contextmenu.stop.prevent="onContextmenuBlock($event, outElement)"
               @mousedown="selectComp(outElement)"
             >
+              <!-- 渲染组件 -->
               <comp-render
                 :key="outElement._vid"
                 :element="outElement"
@@ -30,6 +31,7 @@
                     : 'none',
                 }"
               >
+                <!-- 渲染容器组件（如果有的话 -->
                 <template
                   v-for="(value, slotKey) in outElement.props?.slots"
                   :key="slotKey"
@@ -81,6 +83,7 @@
    * @description 操作当前页面样式表
    */
   watchEffect(() => {
+    console.log('画布信息列表currentPage', currentPage);
     const { bgImage, bgColor } = currentPage.value.config;
     const bodyStyleStr = `
       .simulator-editor-content {

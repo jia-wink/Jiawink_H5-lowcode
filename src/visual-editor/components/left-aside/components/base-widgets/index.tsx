@@ -17,7 +17,7 @@ export default defineComponent({
   icon: Edit,
   setup() {
     const baseWidgets = ref(visualConfig.componentModules.baseWidgets);
-    console.log(baseWidgets);
+    console.log('baseWidgets', baseWidgets);
 
     const log = (evt) => {
       window.console.log('onChange:', evt);

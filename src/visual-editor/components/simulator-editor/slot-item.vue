@@ -41,9 +41,6 @@
 
 <script lang="ts" setup>
   /**
-   * @name: slot-item
-   * @author:卜启缘
-   * @date: 2021/5/2 22:36
    * @description：slot-item
    * @update: 2021/5/2 22:36
    */
