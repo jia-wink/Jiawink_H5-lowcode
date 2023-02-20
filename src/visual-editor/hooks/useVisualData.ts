@@ -62,14 +62,16 @@ const defaultValue: VisualEditorModelValue = {
 
 export const initVisualData = () => {
   const localData = JSON.parse(sessionStorage.getItem(localKey) as string);
-  console.log('localData', localData);
   const jsonData: VisualEditorModelValue = Object.keys(localData?.pages || {}).length
     ? localData
     : defaultValue;
 
   const route = useRoute();
   const router = useRouter();
+  console.log('route', route);
+  console.log('router', router);
 
+  // 当前画布的所有信息包括组件/页面/容器等
   console.log('jsonData：', jsonData);
   // 所有页面的path都必须以 / 开发
   const getPrefixPath = (path: string) => (path.startsWith('/') ? path : `/${path}`);

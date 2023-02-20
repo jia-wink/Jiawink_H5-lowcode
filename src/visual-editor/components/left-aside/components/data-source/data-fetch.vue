@@ -1,8 +1,4 @@
 <!--
- * @Author: 卜启缘
- * @Date: 2021-06-24 18:36:03
- * @LastEditTime: 2021-07-09 20:00:22
- * @LastEditors: 卜启缘
  * @Description: 接口请求
  * @FilePath: \vite-vue3-lowcode\src\visual-editor\components\left-aside\components\data-source\data-fetch.vue
 -->
