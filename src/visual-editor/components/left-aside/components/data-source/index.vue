@@ -1,8 +1,4 @@
 <!--
- * @Author: 卜启缘
- * @Date: 2021-06-24 18:36:03
- * @LastEditTime: 2022-07-02 23:13:00
- * @LastEditors: 卜启缘
  * @Description: 数据源管理
  * @FilePath: /vite-vue3-lowcode/src/visual-editor/components/left-aside/components/data-source/index.vue
 -->
