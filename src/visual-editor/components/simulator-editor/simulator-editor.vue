@@ -77,13 +77,20 @@
 
   const { globalProperties } = useGlobalProperties();
 
+  // watch(
+  //   () => currentPage,
+  //   (newVel) => {
+  //     console.log('newVel', newVel);
+  //   },
+  //   { deep: true },
+  // );
+
   const drag = ref(false);
 
   /**
    * @description 操作当前页面样式表
    */
   watchEffect(() => {
-    console.log('画布信息列表currentPage', currentPage);
     const { bgImage, bgColor } = currentPage.value.config;
     const bodyStyleStr = `
       .simulator-editor-content {

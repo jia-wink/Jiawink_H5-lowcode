@@ -5,7 +5,7 @@
 <template>
   <el-tabs v-model="activeName" tab-position="left" class="left-aside">
     <template v-for="tabItem in tabs" :key="tabItem.name">
-      <el-tab-pane :name="tabItem.name" lazy>
+      <el-tab-pane v-if="tabItem.label !== '数据源'" :name="tabItem.name" lazy>
         <template #label>
           <div class="tab-item">
             <el-icon :size="26"><component :is="tabItem.icon" /></el-icon>
