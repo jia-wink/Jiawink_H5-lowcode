@@ -68,8 +68,6 @@ export const initVisualData = () => {
 
   const route = useRoute();
   const router = useRouter();
-  console.log('route', route);
-  console.log('router', router);
 
   // 当前画布的所有信息包括组件/页面/容器等
   console.log('jsonData：', jsonData);
