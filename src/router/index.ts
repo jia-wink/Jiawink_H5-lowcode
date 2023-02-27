@@ -7,9 +7,25 @@ NProgress.configure({ showSpinner: false }); // NProgress Configuration
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)*',
-    // component: () => import('@/visual-editor/index.vue'),
-    component: () => import('../visual-editor/components/login/index.vue'),
+    // path: '/',
+    // path: '',
+    component: () => import('@/visual-editor/index.vue'),
+    // meta: { requiresAuth: true }
+    // component: () => import('../visual-editor/components/login/index.vue'),
+    // redirect: '/login',
   },
+  {
+    path: '/login',
+    component: () => import('../visual-editor/components/login/index.vue'),
+    meta: {
+      title: '',
+      requiresAuth: false,
+    },
+  },
+  // {
+  //   path: '/',
+  //   component: () => import('@/visual-editor/index.vue'),
+  // },
 ];
 
 const router = createRouter({
@@ -17,8 +33,18 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(() => {
-  NProgress.start(); // start progress bar
+router.beforeEach((to, from, next) => {
+  const routerTo = JSON.parse(localStorage.getItem('routerTo') as string);
+  if (to.meta.requiresAuth === false) {
+    next();
+  } else if (routerTo) {
+    next();
+    NProgress.start(); // start progress bar
+  } else {
+    next({
+      path: '/login',
+    });
+  }
   return true;
 });
 

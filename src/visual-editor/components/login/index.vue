@@ -13,7 +13,7 @@
         <button id="login" @click="handleToLogin">去登录</button>
       </div>
       <div ref="formBox" class="form-box">
-        <div ref="loginForm" class="loginFormBox">
+        <div ref="loginFormDom" class="loginFormBox">
           <h1 class="bigH1">Login</h1>
           <div class="svg-form">
             <!-- SVG提前准备好, 来自互联网 -->
@@ -41,18 +41,27 @@
               <label for="account">邮箱</label>
               <input
                 id="account"
+                v-model="loginForm.username"
                 type="text"
                 autocomplete="off"
                 @click="accountClick"
                 @focus="accountFocus"
               />
               <label for="password">密码</label>
-              <input id="password" type="password" @click="pwdClick" @focus="pwdFocus" />
-              <button id="submit" @mouseover="submitOver" @focus="submitFocus">登录</button>
+              <input
+                id="password"
+                v-model="loginForm.password"
+                type="password"
+                @click="pwdClick"
+                @focus="pwdFocus"
+              />
+              <button id="submit" @mouseover="submitOver" @focus="submitFocus" @click="handleLogin"
+                >登录</button
+              >
             </div>
           </div>
         </div>
-        <div ref="registerForm" class="form-register newHidden">
+        <div ref="registerFormDom" class="form-register newHidden">
           <h1 class="bigH1">Register</h1>
           <label for="account">邮箱</label>
           <input id="account" type="account" />
@@ -68,8 +77,12 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, reactive } from 'vue';
   import anime from 'animejs';
+  import { useRouter } from 'vue-router';
+  import request from '@/hooks/http';
+
+  //#region 页面交互部分
   // 定义一个anime对象
   let an = null;
   // 绑定账号输入框的点击事件
@@ -200,21 +213,39 @@
     });
   }
 
-  const registerForm = ref();
-  const loginForm = ref();
+  const registerFormDom = ref();
+  const loginFormDom = ref();
   const formBox = ref();
   // 点击去注册按钮
   function handleToRegister() {
     formBox.value.style.transform = 'translateX(10%)';
-    loginForm.value.classList.add('newHidden');
-    registerForm.value.classList.remove('newHidden');
+    loginFormDom.value.classList.add('newHidden');
+    registerFormDom.value.classList.remove('newHidden');
   }
   // 点击去登录按钮
   function handleToLogin() {
     formBox.value.style.transform = 'translateX(90%)';
-    registerForm.value.classList.add('newHidden');
-    loginForm.value.classList.remove('newHidden');
+    registerFormDom.value.classList.add('newHidden');
+    loginFormDom.value.classList.remove('newHidden');
   }
+  //#endregion
+
+  //#region 登录部分
+  const router = useRouter();
+  const loginForm = reactive({
+    username: '',
+    password: '',
+  });
+  async function handleLogin() {
+    await request.post('/api/login', loginForm).then((res) => {
+      if (res.status === 200) {
+        localStorage.setItem('routerTo', JSON.stringify(res));
+        router.push('/');
+      }
+    });
+  }
+
+  //#endregion
 </script>
 
 <style lang="scss" scoped>
