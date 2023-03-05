@@ -37,39 +37,50 @@
                 d="m 40,120.00016 239.99984,-3.2e-4 c 0,0 24.99263,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,35 h -239.99984 c 0,-0.0205 -25,4.01348 -25,38.5 0,34.48652 25,38.5 25,38.5 h 215 c 0,0 20,-0.99604 20,-25 0,-24.00396 -20,-25 -20,-25 h -190 c 0,0 -20,1.71033 -20,25 0,24.00396 20,25 20,25 h 168.57143"
               />
             </svg>
-            <div class="form-login">
-              <label for="account">邮箱</label>
-              <input
-                id="account"
-                v-model="loginForm.username"
-                type="text"
-                autocomplete="off"
-                @click="accountClick"
-                @focus="accountFocus"
-              />
-              <label for="password">密码</label>
-              <input
-                id="password"
-                v-model="loginForm.password"
-                type="password"
-                @click="pwdClick"
-                @focus="pwdFocus"
-              />
-              <button id="submit" @mouseover="submitOver" @focus="submitFocus" @click="handleLogin"
-                >登录</button
-              >
-            </div>
+            <el-form class="form-login" :rules="rules" :model="loginForm">
+              <el-form-item prop="username">
+                <label for="account">邮箱</label>
+                <el-input
+                  id="account"
+                  v-model="loginForm.username"
+                  type="text"
+                  autocomplete="off"
+                  @click="accountClick"
+                  @focus="accountFocus"
+                />
+              </el-form-item>
+              <el-form-item>
+                <label for="password">密码</label>
+                <el-input
+                  id="password"
+                  v-model="loginForm.password"
+                  type="password"
+                  @click="pwdClick"
+                  @focus="pwdFocus"
+                />
+              </el-form-item>
+              <el-form-item>
+                <button
+                  id="submit"
+                  @mouseover="submitOver"
+                  @focus="submitFocus"
+                  @click="handleLogin"
+                  >登录</button
+                >
+              </el-form-item>
+            </el-form>
           </div>
         </div>
         <div ref="registerFormDom" class="form-register newHidden">
           <h1 class="bigH1">Register</h1>
           <label for="account">邮箱</label>
-          <input id="account" type="account" />
-          <label for="password">密码</label>
-          <input id="password" type="password" />
+          <el-input id="account" type="account" />
+          <button @click="handleSendCode">发送验证码</button>
           <label for="email">验证码</label>
-          <input id="" type="email" />
-          <button>注册</button>
+          <el-input id="" type="email" />
+          <label for="password">密码</label>
+          <el-input id="password" type="password" />
+          <button @click="handleRegister">注册</button>
         </div>
       </div>
     </div>
@@ -236,6 +247,20 @@
     username: '',
     password: '',
   });
+  function validateEmail(rule, value, callback) {
+    if (value === '') {
+      // callback(new Error('Please input the password'));
+      callback();
+    } else {
+      callback();
+    }
+  }
+  const rules = reactive({
+    username: [{ validator: validateEmail, trigger: 'blur' }],
+  });
+  // function checkEmail(e) {
+  //   console.log(e);
+  // }
   async function handleLogin() {
     await request.post('/api/login', loginForm).then((res) => {
       if (res.status === 200) {
@@ -245,6 +270,30 @@
     });
   }
 
+  //#endregion
+
+  //#region 注册部分
+  const registerForm = reactive({
+    username: '',
+    pwd: '',
+    code: '',
+  });
+
+  async function handleRegister() {
+    await request.post('/api/register', registerForm).then((res) => {
+      if (res.status === 200) {
+        handleToLogin();
+      }
+    });
+  }
+
+  const codeForm = reactive({
+    userName: '',
+  });
+
+  async function handleSendCode() {
+    await request.post('/api/code', codeForm).then();
+  }
   //#endregion
 </script>
 
@@ -356,7 +405,7 @@
   .form-register {
     width: 240px;
     // padding-top: 50px;
-    margin: 40px;
+    margin: 35px 40px 40px 40px;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -368,20 +417,31 @@
     color: #c2c2c2;
     display: block;
     font-size: 14px;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 5px;
   }
 
-  input {
+  :deep(.el-input) {
+    border: none !important;
+  }
+
+  :deep(.el-input__wrapper) {
     width: 100%;
     height: 30px;
     line-height: 30px;
     font-size: 20px;
     color: #f2f2f2;
     background-color: transparent;
-    border: none;
+    border: none !important;
     outline: none;
     text-indent: 2px;
+    box-shadow: 0 0 0 0px;
+    padding: 0;
+  }
+
+  :deep(.el-input__inner) {
+    color: #f2f2f2;
+    border: 0 in !important;
   }
 
   button {
