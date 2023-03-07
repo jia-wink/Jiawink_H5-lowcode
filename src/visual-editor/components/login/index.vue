@@ -9,7 +9,7 @@
       </div>
       <div class="con-box">
         <h1>欢迎来到嘉雲</h1>
-        <p>已有账号</p>
+        <p>已有账号？</p>
         <button id="login" @click="handleToLogin">去登录</button>
       </div>
       <div ref="formBox" class="form-box">
@@ -44,7 +44,7 @@
                   id="account"
                   v-model="loginForm.username"
                   type="text"
-                  autocomplete="off"
+                  autocomplete="new-password"
                   @click="accountClick"
                   @focus="accountFocus"
                 />
@@ -54,7 +54,8 @@
                 <el-input
                   id="password"
                   v-model="loginForm.password"
-                  type="password"
+                  show-password
+                  autocomplete="off"
                   @click="pwdClick"
                   @focus="pwdFocus"
                 />
@@ -73,14 +74,33 @@
         </div>
         <div ref="registerFormDom" class="form-register newHidden">
           <h1 class="bigH1">Register</h1>
-          <label for="account">邮箱</label>
-          <el-input id="account" type="account" />
-          <button @click="handleSendCode">发送验证码</button>
-          <label for="email">验证码</label>
-          <el-input id="" type="email" />
-          <label for="password">密码</label>
-          <el-input id="password" type="password" />
-          <button @click="handleRegister">注册</button>
+          <div>
+            <label for="email">邮箱</label>
+            <el-input
+              id="email"
+              v-model="registerForm.username"
+              type="text"
+              autocomplete="new-password"
+            />
+            <button class="register-button" @click="handleSendCode">发送验证码</button>
+            <label for="code">验证码</label>
+            <el-input
+              id="code"
+              v-model="registerForm.code"
+              type="text"
+              minlength="6"
+              maxlength="6"
+              autocomplete="new-password"
+            />
+            <label for="password">密码</label>
+            <el-input
+              id="password"
+              v-model="registerForm.password"
+              show-password
+              autocomplete="off"
+            />
+            <button class="register-button" @click="handleRegister">注册</button>
+          </div>
         </div>
       </div>
     </div>
@@ -91,6 +111,7 @@
   import { ref, reactive } from 'vue';
   import anime from 'animejs';
   import { useRouter } from 'vue-router';
+  import { ElMessage } from 'element-plus';
   import request from '@/hooks/http';
 
   //#region 页面交互部分
@@ -275,33 +296,93 @@
   //#region 注册部分
   const registerForm = reactive({
     username: '',
-    pwd: '',
+    password: '',
     code: '',
   });
-
+  // 注册请求
   async function handleRegister() {
-    await request.post('/api/register', registerForm).then((res) => {
-      if (res.status === 200) {
-        handleToLogin();
-      }
-    });
+    await request
+      .post('/api/register', registerForm)
+      .then((res) => {
+        if (res.status === 200) {
+          ElMessage({
+            message: res.data.msg,
+            type: 'success',
+          });
+          handleToLogin();
+        }
+      })
+      .catch((err) =>
+        ElMessage({
+          message: err,
+          type: 'error',
+        }),
+      );
   }
-
-  const codeForm = reactive({
-    userName: '',
-  });
-
+  // 发送邮箱验证码
   async function handleSendCode() {
-    await request.post('/api/code', codeForm).then();
+    const codeForm = {
+      username: registerForm.username,
+    };
+    if (registerForm.username === '') {
+      return ElMessage({
+        showClose: true,
+        message: '请输入邮箱！',
+        type: 'error',
+      });
+    }
+    await request
+      .post('/api/code', codeForm)
+      .then((res) => {
+        if (res.data.status === 1) {
+          ElMessage({
+            message: res.data.msg,
+            type: 'success',
+          });
+        } else {
+          ElMessage({
+            message: res.data.msg,
+            type: 'warning',
+          });
+        }
+      })
+      .catch((err) =>
+        ElMessage({
+          message: err,
+          type: 'error',
+        }),
+      );
   }
   //#endregion
 </script>
 
 <style lang="scss" scoped>
+  @keyframes s {
+    from {
+      // transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    to {
+      // transform: translateY(0%);
+      opacity: 1;
+    }
+  }
+  @keyframes mymove {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
   * {
     /* 初始化 */
     margin: 0;
     padding: 0;
+    user-select: none;
   }
 
   .big-container {
@@ -383,6 +464,9 @@
     height: 100%;
     margin-top: 40px;
     position: relative;
+    /* 动画过渡 加速后减速 */
+    // transition: 0.5s;
+    animation: s 0.5s;
   }
 
   .form-box svg {
@@ -410,7 +494,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    transition: 0.5s;
+    // transition: 0.5s;
+    animation: s 0.5s;
   }
 
   .form-login label {
@@ -419,11 +504,12 @@
     font-size: 14px;
     margin-top: 10px;
     margin-bottom: 5px;
+    // animation: s 0.5s;
   }
 
-  :deep(.el-input) {
-    border: none !important;
-  }
+  // :deep(.el-input) {
+  //   border: none !important;
+  // }
 
   :deep(.el-input__wrapper) {
     width: 100%;
@@ -440,8 +526,12 @@
   }
 
   :deep(.el-input__inner) {
-    color: #f2f2f2;
-    border: 0 in !important;
+    color: #f2f2f2 !important;
+    border: 0 !important;
+  }
+
+  :deep(.form-register .el-input) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   }
 
   button {
@@ -458,6 +548,32 @@
 
   .newHidden {
     display: none;
-    transition: 0.5s;
+    // opacity: 0;
+    // opacity: 0;
+    // height: 0;
+    // padding: 0;
+    // margin: 0;
+    // animation: mymove forwards;
+    // transition: 0.5s;
+  }
+
+  :deep(:-webkit-autofill) {
+    transition: background-color 5000s ease-in-out 0s !important;
+    -webkit-text-fill-color: #f2f2f2;
+    // background-color: transparent !important;
+    // -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  }
+
+  .register-button {
+    height: 50px;
+    margin: 10px 0 10px 0;
+    background-color: #f6f6f6;
+    outline: none;
+    border-radius: 25px;
+    padding: 5px;
+    color: #474a59;
+    letter-spacing: 2px;
+    border: none;
+    cursor: pointer;
   }
 </style>
