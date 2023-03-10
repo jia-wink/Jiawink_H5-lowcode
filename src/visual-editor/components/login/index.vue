@@ -285,8 +285,20 @@
   async function handleLogin() {
     await request.post('/api/login', loginForm).then((res) => {
       if (res.status === 200) {
-        localStorage.setItem('routerTo', JSON.stringify(res));
-        router.push('/');
+        if (res.data.status === 1) {
+          localStorage.setItem('routerTo', JSON.stringify(res));
+          router.push('/');
+        } else {
+          ElMessage({
+            message: res.data.msg,
+            type: 'error',
+          });
+        }
+      } else {
+        ElMessage({
+          message: '请求失败，请联系管理员',
+          type: 'error',
+        });
       }
     });
   }

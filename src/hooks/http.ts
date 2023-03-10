@@ -1,6 +1,6 @@
 import axios from 'axios';
 const request = axios.create({
-  baseURL: 'http://localhost:12580',
+  baseURL: 'https://lowcodeServer.jiawink.xyz:12580',
   timeout: 1000,
 });
 
