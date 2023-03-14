@@ -52,7 +52,6 @@
               <el-form-item>
                 <label for="password">密码</label>
                 <el-input
-                  id="password"
                   v-model="loginForm.password"
                   show-password
                   autocomplete="off"
@@ -62,7 +61,7 @@
               </el-form-item>
               <el-form-item>
                 <button
-                  id="submit"
+                  type="button"
                   @mouseover="submitOver"
                   @focus="submitFocus"
                   @click="handleLogin"
@@ -93,12 +92,7 @@
               autocomplete="new-password"
             />
             <label for="password">密码</label>
-            <el-input
-              id="password"
-              v-model="registerForm.password"
-              show-password
-              autocomplete="off"
-            />
+            <el-input v-model="registerForm.password" show-password autocomplete="off" />
             <button class="register-button" @click="handleRegister">注册</button>
           </div>
         </div>
@@ -313,6 +307,25 @@
   });
   // 注册请求
   async function handleRegister() {
+    if (registerForm.username.length === 0) {
+      return ElMessage({
+        showClose: true,
+        message: '请输入邮箱！',
+        type: 'error',
+      });
+    } else if (registerForm.code.length === 0) {
+      return ElMessage({
+        showClose: true,
+        message: '请输入验证码',
+        type: 'error',
+      });
+    } else if (registerForm.password.length === 0) {
+      return ElMessage({
+        showClose: true,
+        message: '请输入密码',
+        type: 'error',
+      });
+    }
     await request
       .post('/api/register', registerForm)
       .then((res) => {

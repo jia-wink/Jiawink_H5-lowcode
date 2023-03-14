@@ -1,6 +1,9 @@
 import axios from 'axios';
 const request = axios.create({
-  baseURL: 'https://lowcodeServer.jiawink.xyz:12580',
+  // 生产线
+  baseURL: 'https://lowcodeServer.jiawink.xyz',
+  // 测试线
+  // baseURL: 'http://localhost:12580',
   timeout: 1000,
 });
 
