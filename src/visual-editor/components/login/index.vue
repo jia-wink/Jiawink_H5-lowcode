@@ -105,7 +105,7 @@
   import { ref, reactive } from 'vue';
   import anime from 'animejs';
   import { useRouter } from 'vue-router';
-  import { ElMessage } from 'element-plus';
+  import { ElMessage, ElLoading } from 'element-plus';
   import request from '@/hooks/http';
 
   //#region 页面交互部分
@@ -280,8 +280,12 @@
     await request.post('/api/login', loginForm).then((res) => {
       if (res.status === 200) {
         if (res.data.status === 1) {
+          const loading = ElLoading.service({
+            background: 'rgba(0, 0, 0, 0)',
+          });
           localStorage.setItem('routerTo', JSON.stringify(res));
           router.push('/');
+          loading.close();
         } else {
           ElMessage({
             message: res.data.msg,

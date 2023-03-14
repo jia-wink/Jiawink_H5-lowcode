@@ -38,6 +38,17 @@
           @click="runPreview"
         />
       </el-tooltip> -->
+      <el-dropdown>
+        <div>
+          <el-avatar :icon="UserFilled" />
+          <arrow-down />
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="loginOut">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
       <el-popover placement="bottom" :width="140" trigger="hover">
         <el-row type="flex" class="row-bg" justify="space-around">
           <el-col :span="6">
@@ -56,7 +67,7 @@
           </el-col>
         </el-row>
         <template #reference>
-          <img :src="`${BASE_URL}github.svg`" width="40" height="40" alt="" />
+          <img :src="`${BASE_URL}github.svg`" width="45" height="45" alt="" />
         </template>
       </el-popover>
     </el-col>
@@ -67,6 +78,9 @@
 
 <script lang="ts" setup>
   // import { VideoPlay } from '@element-plus/icons-vue';
+  import { UserFilled } from '@element-plus/icons-vue';
+  import { useRouter } from 'vue-router';
+  import { ElLoading } from 'element-plus';
   import Preview from './preview.vue';
   import { useTools } from './useTools';
   import { useVisualData, localKey } from '@/visual-editor/hooks/useVisualData';
@@ -87,6 +101,16 @@
     localStorage.setItem(localKey, JSON.stringify(jsonData));
     isShowH5Preview.value = true;
   };
+
+  const router = useRouter();
+  function loginOut() {
+    const loading = ElLoading.service({
+      background: 'rgba(0, 0, 0, 0)',
+    });
+    localStorage.removeItem('routerTo');
+    router.push('/login');
+    loading.close();
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -113,7 +137,7 @@
     }
 
     .right-tools > * {
-      margin-left: 8px;
+      margin-left: 16px;
     }
   }
 

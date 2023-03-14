@@ -1,7 +1,9 @@
 <template>
   <el-config-provider :locale="zhCn">
     <router-view #="{ Component, route }">
-      <component :is="Component" :key="route.path" />
+      <transition name="fade" mode="out-in">
+        <component :is="Component" :key="route.path" />
+      </transition>
     </router-view>
   </el-config-provider>
 </template>
@@ -24,4 +26,14 @@
 
 <style lang="scss">
   @import 'style/common';
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
 </style>
