@@ -277,12 +277,12 @@
   //   console.log(e);
   // }
   async function handleLogin() {
+    const loading = ElLoading.service({
+      background: 'rgba(0, 0, 0, 0)',
+    });
     await request.post('/api/login', loginForm).then((res) => {
       if (res.status === 200) {
         if (res.data.status === 1) {
-          const loading = ElLoading.service({
-            background: 'rgba(0, 0, 0, 0)',
-          });
           localStorage.setItem('routerTo', JSON.stringify(res));
           router.push('/');
           loading.close();
@@ -446,6 +446,10 @@
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(20px);
     border-radius: 5px;
+
+    button {
+      color: #fff;
+    }
   }
 
   .con-box h1 {
